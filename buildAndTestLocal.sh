@@ -10,7 +10,7 @@ if [ "$(docker ps -a -f name=${CONTAINER_NAME})" ]; then
     docker rm -f ${CONTAINER_NAME}
 fi
 
-docker run -d --restart always -v ./:/app --name ${CONTAINER_NAME} ${IMAGE_NAME}
+docker run  --privileged -d --restart always -v $PWD:/app -v /var/run/docker.sock:/var/run/docker.sock --name ${CONTAINER_NAME} ${IMAGE_NAME}
 
 echo "Container running... Show logs..."
 

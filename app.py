@@ -40,7 +40,7 @@ def get_system_uptime():
     uptime_hours, remainder = divmod(remainder, 3600)
     uptime_minutes, uptime_seconds = divmod(remainder, 60)
 
-    return f"{int(uptime_days)} dias, {int(uptime_hours)}:{int(uptime_minutes)}:{int(uptime_seconds)}"
+    return f"{int(uptime_days)} days, {int(uptime_hours)}h{int(uptime_minutes)}m{int(uptime_seconds)}s"
     
 def get_private_ip():
     default_interface = netifaces.gateways()['default'][netifaces.AF_INET][1]
@@ -115,7 +115,7 @@ def draw_image(draw, x, y, icon_path, icon_size):
         icon = icon.resize(icon_size)
         draw.bitmap((x, y), icon, fill="black")
     except IOError:
-        print(f"Erro: Não foi possível carregar o ícone em {icon_path}")
+        print(f"Error: Loading file {icon_path}")
 
 if __name__ == "__main__":
     display_info()
