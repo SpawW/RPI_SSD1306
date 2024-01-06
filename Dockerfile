@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY cronjob /etc/cron.d/cronjob
 RUN chmod 0644 /etc/cron.d/cronjob
 
-COPY app.py .
+COPY . .
 
 COPY supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 

@@ -26,6 +26,8 @@ import psutil
 import docker
 import socket
 import netifaces
+import json
+import subprocess
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
 from luma.oled.device import ssd1306
@@ -42,10 +44,30 @@ def get_system_uptime():
 
     return f"{int(uptime_days)} days, {int(uptime_hours)}h{int(uptime_minutes)}m{int(uptime_seconds)}s"
     
+def is_running_in_docker():
+    try:
+        subprocess.run(['docker', '--version'], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return False
+    except FileNotFoundError:
+        return True
+    except subprocess.CalledProcessError:
+        return True
+    except Exception as e:
+        print(f"Erro ao verificar se está em um contêiner Docker: {e}")
+        return True
+    
 def get_private_ip():
-    default_interface = netifaces.gateways()['default'][netifaces.AF_INET][1]
-    private_ip = netifaces.ifaddresses(default_interface)[netifaces.AF_INET][0]['addr']
-    return private_ip
+    if is_running_in_docker():
+        try:
+            with open('conf.json', 'r') as conf_file:
+                conf_data = json.load(conf_file)
+                return conf_data.get('ipv4')
+        except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
+            return "undefined"
+    else:
+        default_interface = netifaces.gateways()['default'][netifaces.AF_INET][1]
+        private_ip = netifaces.ifaddresses(default_interface)[netifaces.AF_INET][0]['addr']
+        return private_ip
 
 def get_cpu_usage():
     return psutil.cpu_percent(interval=1)
