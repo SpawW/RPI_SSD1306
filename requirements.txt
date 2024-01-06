@@ -1,0 +1,5 @@
+psutil
+docker
+netifaces
+luma.oled
+Pillow
