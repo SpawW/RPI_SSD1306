@@ -124,7 +124,7 @@ def rotate_array(arr):
 
 def print_info(draw, line, col, text, icon, font, image_path = ""):
     pos_line = line * 16
-    pos_col  = [20, 70][col]
+    pos_col  = [20, 80][col]
     if image_path == "":
         draw_icon(draw, pos_col-20, pos_line, icon, font)
     else:
