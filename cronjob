@@ -1,1 +1,2 @@
-0 * * * * root git -C /app pull origin master
+0 * * * * root cd /app; git pull
+#git -C /app pull origin master
